@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}Contactos - Panel Jinja2{% endblock %}
+
+{% block content %}
+<div class="card shadow-sm mb-4">
+    <div class="card-header bg-white">
+        <div class="d-flex justify-content-between align-items-center">
+            <h4 class="mb-0">Mis contactos</h4>
+            <div class="d-flex align-items-center gap-3">
+                <span class="text-muted">@{{ usuario.username }}</span>
+                <form method="post" action="/views/logout">
+                    <button class="btn btn-outline-secondary btn-sm" type="submit">Cerrar sesión</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <form method="post" action="/views/agenda">
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <label class="form-label">Nombre</label>
+                    <input type="text" class="form-control" name="nombre" placeholder="Ana" required>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Teléfono</label>
+                    <input type="text" class="form-control" name="telefono" placeholder="1234567" required>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Correo</label>
+                    <input type="email" class="form-control" name="mail" placeholder="ana@example.com" required>
+                </div>
+            </div>
+            <div class="mt-3">
+                <button type="submit" class="btn btn-primary">Guardar contacto</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-header bg-white d-flex justify-content-between align-items-center">
+        <h4 class="mb-0">Lista de Contactos (Renderizada con Jinja2)</h4>
+        <span class="badge bg-info text-dark">{{ contactos|length }} Registros</span>
+    </div>
+    <div class="card-body">
+        <table class="table table-hover align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Teléfono</th>
+                    <th>Correo</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for c in contactos %}
+                <tr>
+                    <td><strong>#{{ c.id }}</strong></td>
+                    <td>{{ c.nombre }}</td>
+                    <td>{{ c.telefono }}</td>
+                    <td><a href="mailto:{{ c.mail }}">{{ c.mail }}</a></td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="4" class="text-center text-muted">No hay contactos registrados</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
